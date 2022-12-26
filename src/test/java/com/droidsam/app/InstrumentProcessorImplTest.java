@@ -1,13 +1,9 @@
 package com.droidsam.app;
 
-import com.droidsam.app.doubles.InstrumentDummy;
-import com.droidsam.app.doubles.InstrumentSpy;
-import com.droidsam.app.doubles.TaskDispatcherDummy;
-import com.droidsam.app.doubles.TaskDispatcherSpy;
+import com.droidsam.app.doubles.*;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class InstrumentProcessorImplTest {
 
@@ -41,5 +37,14 @@ class InstrumentProcessorImplTest {
         instrumentProcessor.process();
 
         assertEquals(1, instrument.getExecuteInvocations());
+    }
+
+    @Test
+    public void shouldThrowExceptionIfTaskPassedToInstrumentIsNull() {
+        var instrument = new InstrumentThatThrowExceptionWhenTaskIsNull();
+        var instrumentProcessor = new InstrumentProcessorImpl(new TaskDispatcherDummy(), instrument);
+
+
+        assertThrows(IllegalArgumentException.class, () -> instrumentProcessor.process());
     }
 }
