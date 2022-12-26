@@ -25,8 +25,8 @@ class InstrumentProcessorImplTest {
 
         instrumentProcessor.process();
 
-        assertEquals(1, taskDispatcher.getGetTaskInvocations());
-        assertEquals(1, taskDispatcher.getFinishedTaskInvocations());
+        assertTrue(taskDispatcher.isGetTaskCalled());
+        assertTrue(taskDispatcher.isFinishedTaskCalled());
     }
 
     @Test
@@ -36,8 +36,8 @@ class InstrumentProcessorImplTest {
         var instrumentProcessor = new InstrumentProcessorImpl(taskDispatcher, instrument);
 
         instrumentProcessor.process();
-
-        assertEquals(1, instrument.getExecuteInvocations());
+        
+        assertTrue(instrument.isExecuteCalled());
     }
 
     @Test
@@ -58,7 +58,7 @@ class InstrumentProcessorImplTest {
 
         instrumentProcessor.process();
 
-        assertEquals(1, taskDispatcher.getFinishedTaskInvocations());
+        assertTrue(taskDispatcher.isFinishedTaskCalled());
         assertTrue(taskDispatcher.getFinishedTaskMethodInvocationArguments().contains(PENDING_TASK));
     }
 }

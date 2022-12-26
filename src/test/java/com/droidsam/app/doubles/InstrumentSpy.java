@@ -11,7 +11,11 @@ public class InstrumentSpy implements Instrument {
         executeInvocations++;
     }
 
-    public int getExecuteInvocations() {
+    private int getExecuteInvocations() {
         return executeInvocations;
+    }
+
+    public boolean isExecuteCalled() {
+        return getExecuteInvocations() != 0;
     }
 }

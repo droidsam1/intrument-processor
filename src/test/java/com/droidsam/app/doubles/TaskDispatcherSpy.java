@@ -53,11 +53,20 @@ public class TaskDispatcherSpy implements TaskDispatcher {
         finishedTaskInvocations++;
     }
 
-    public int getFinishedTaskInvocations() {
+    private int getFinishedTaskInvocations() {
         return finishedTaskInvocations;
     }
 
-    public int getGetTaskInvocations() {
+    public boolean isFinishedTaskCalled() {
+        return getFinishedTaskInvocations() != 0;
+
+    }
+
+    public boolean isGetTaskCalled() {
+        return getGetTaskInvocations() != 0;
+    }
+
+    private int getGetTaskInvocations() {
         return getTaskInvocations;
     }
 
