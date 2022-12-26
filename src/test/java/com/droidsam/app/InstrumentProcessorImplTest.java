@@ -19,8 +19,9 @@ class InstrumentProcessorImplTest {
 
     @Test
     public void shouldCallFinishedTaskAfterSuccessfullyTaskCompletion() {
+        var instrument = new InstrumentThatFiresFinishedTaskFake();
         var taskDispatcher = new TaskDispatcherSpy();
-        var instrumentProcessor = new InstrumentProcessorImpl(taskDispatcher, new InstrumentDummy());
+        var instrumentProcessor = new InstrumentProcessorImpl(taskDispatcher, instrument);
 
         instrumentProcessor.process();
 
@@ -46,5 +47,18 @@ class InstrumentProcessorImplTest {
 
 
         assertThrows(IllegalArgumentException.class, instrumentProcessor::process);
+    }
+
+    @Test
+    public void shouldCallFinishedTaskWithTheCorrectTaskWhenInstrumentFiresTheFinishedEvent() {
+        var PENDING_TASK = "Task1";
+        var instrument = new InstrumentThatFiresFinishedTaskFake();
+        var taskDispatcher = TaskDispatcherSpy.withPendingTasks(PENDING_TASK);
+        var instrumentProcessor = new InstrumentProcessorImpl(taskDispatcher, instrument);
+
+        instrumentProcessor.process();
+
+        assertEquals(1, taskDispatcher.getFinishedTaskInvocations());
+        assertTrue(taskDispatcher.getFinishedTaskMethodInvocationArguments().contains(PENDING_TASK));
     }
 }
