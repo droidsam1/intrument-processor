@@ -12,6 +12,8 @@ public class InstrumentProcessorImpl implements InstrumentProcessor {
 
     @Override
     public void process() {
-        taskDispatcher.finishedTask(this.taskDispatcher.getTask());
+        var task = this.taskDispatcher.getTask();
+        instrument.execute(task, null, null);
+        taskDispatcher.finishedTask(task);
     }
 }
