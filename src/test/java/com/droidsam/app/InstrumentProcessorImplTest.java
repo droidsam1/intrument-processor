@@ -41,10 +41,10 @@ class InstrumentProcessorImplTest {
 
     @Test
     public void shouldThrowExceptionIfTaskPassedToInstrumentIsNull() {
-        var instrument = new InstrumentThatThrowExceptionWhenTaskIsNull();
+        var instrument = new InstrumentThatThrowExceptionWhenTaskIsNullFake();
         var instrumentProcessor = new InstrumentProcessorImpl(new TaskDispatcherDummy(), instrument);
 
 
-        assertThrows(IllegalArgumentException.class, () -> instrumentProcessor.process());
+        assertThrows(IllegalArgumentException.class, instrumentProcessor::process);
     }
 }
