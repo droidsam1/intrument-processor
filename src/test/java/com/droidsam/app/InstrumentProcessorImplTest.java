@@ -19,7 +19,7 @@ class InstrumentProcessorImplTest {
 
     @Test
     public void shouldCallFinishedTaskAfterSuccessfullyTaskCompletion() {
-        var instrument = new InstrumentThatFiresFinishedTaskFake();
+        var instrument = new InstrumentThatFiresFinishedTaskStub();
         var taskDispatcher = new TaskDispatcherSpy();
         var instrumentProcessor = new InstrumentProcessorImpl(taskDispatcher, instrument);
 
@@ -52,7 +52,7 @@ class InstrumentProcessorImplTest {
     @Test
     public void shouldCallFinishedTaskWithTheCorrectTaskWhenInstrumentFiresTheFinishedEvent() {
         var PENDING_TASK = "Task1";
-        var instrument = new InstrumentThatFiresFinishedTaskFake();
+        var instrument = new InstrumentThatFiresFinishedTaskStub();
         var taskDispatcher = TaskDispatcherSpy.withPendingTasks(PENDING_TASK);
         var instrumentProcessor = new InstrumentProcessorImpl(taskDispatcher, instrument);
 
@@ -65,7 +65,7 @@ class InstrumentProcessorImplTest {
     @Test
     public void shouldInstrumentProcessorWriteErrorToConsoleWhenInstrumentDetectsAndErrorSituation() {
 
-        var instrument = new InstrumentThatFiresErrorFake();
+        var instrument = new InstrumentThatFiresErrorStub();
         var taskDispatcher = new TaskDispatcherSpy();
         var consoleSpy = new ConsoleSpy();
         var instrumentProcessor = new InstrumentProcessorImpl(taskDispatcher, instrument, consoleSpy);
