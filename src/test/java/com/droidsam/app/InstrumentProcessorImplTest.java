@@ -36,7 +36,7 @@ class InstrumentProcessorImplTest {
         var instrumentProcessor = new InstrumentProcessorImpl(taskDispatcher, instrument);
 
         instrumentProcessor.process();
-        
+
         assertTrue(instrument.isExecuteCalled());
     }
 
@@ -60,5 +60,19 @@ class InstrumentProcessorImplTest {
 
         assertTrue(taskDispatcher.isFinishedTaskCalled());
         assertTrue(taskDispatcher.getFinishedTaskMethodInvocationArguments().contains(PENDING_TASK));
+    }
+
+    @Test
+    public void shouldInstrumentProcessorWriteErrorToConsoleWhenInstrumentDetectsAndErrorSituation() {
+
+        var instrument = new InstrumentThatFiresErrorFake();
+        var taskDispatcher = new TaskDispatcherSpy();
+        var consoleSpy = new ConsoleSpy();
+        var instrumentProcessor = new InstrumentProcessorImpl(taskDispatcher, instrument, consoleSpy);
+
+        instrumentProcessor.process();
+
+        assertFalse(taskDispatcher.isFinishedTaskCalled());
+        assertEquals("Error occurred", consoleSpy.getPrintedString());
     }
 }
